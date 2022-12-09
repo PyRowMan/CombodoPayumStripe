@@ -64,7 +64,8 @@ class RefundAction implements ActionInterface, ApiAwareInterface
     {
         Stripe::setApiKey($this->keys->getSecretKey());
         $intent = \Stripe\PaymentIntent::retrieve($model['payment_intent_id']);
-        $intent->charges->data[0]->refund();
+        $charge = $intent->charges->data[0];
+        $charge->refunds->create();
         return $intent;
     }
 
